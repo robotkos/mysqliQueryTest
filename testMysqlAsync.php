@@ -13,3 +13,5 @@ ini_set('display_startup_errors', 1);
 
 require __DIR__.'/vendor/autoload.php';
 
+$parser = new \queryController\queryDataController();
+$parser->start();
