@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityManager;
 class queryDataController
 {
     public function start(){
-        $link = mysqli_connect("127.0.0.1:3306", "root", "w2e3r4", "lba");
+        $link = mysqli_connect("127.0.0.1:3310", "robot", "w2e3r4", "lba");
 
         if (!$link) {
             echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;

@@ -5,17 +5,17 @@ RUN	mkdir /usr/sql
 RUN	chmod 644 /usr/sql
 
 # ROOT PASSWORD
-ENV MYSQL_ROOT_PASSWORD=w2e3r4
+ENV TIMEZONE Etc/UTC
+ENV MYSQL_ROOT_PASSWORD=w2e3r4 \
+    MYSQL_DATABASE=lba \
+    MYSQL_USER=robot \
+    MYSQL_PASSWORD=serhii
 
-#ENV MYSQL_DATABASE=sampledb
-ENV MYSQL_USER=sample-username
-ENV MYSQL_PASSWORD=q1w2e3
-
-ADD ["sqlDump/Sample-SQL-File-1000000-Rows.sql", "/usr/sql/sources.sql"]
+COPY sqlDump/Sample-SQL-File-1000000-Rows.sql /docker-entrypoint-initdb.d/lba.sql
 
 RUN /etc/init.d/mysql start && \
-        mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE lba;" && \
-    	mysql -u root -p${MYSQL_ROOT_PASSWORD} -D lba < /usr/sql/sources.sql && \
-    	rm -rd /usr/sql
+        sleep 5 && \
+        mysql -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE lba" && \
+    	mysql -p${MYSQL_ROOT_PASSWORD} -D lba < /docker-entrypoint-initdb.d/lba.sql
 #PORT
-EXPOSE 3306
+EXPOSE 3310
