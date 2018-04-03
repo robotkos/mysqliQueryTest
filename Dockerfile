@@ -1,4 +1,4 @@
-#docker build -t mysqlImage . && docker docker run -it -p 3307:3306 --name mysql-server mysqlImage
+#docker build -t mysqlimage . && docker docker run -it -p 3307:3306 --name mysql-server mysqlimage
 FROM mysql:5.7
 
 RUN	mkdir /usr/sql
