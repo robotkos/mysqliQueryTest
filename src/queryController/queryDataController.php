@@ -10,22 +10,33 @@ namespace queryController;
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+use Model\mysqlQuery;
 
 class queryDataController
 {
-    public function start(){
-        $link = mysqli_connect("127.0.0.1:3310", "robot", "w2e3r4", "lba");
+    public function start()
+    {
+        $mysql = new mysqlQuery();
+        $connection = $mysql->mysqlOunConnect();
 
-        if (!$link) {
-            echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;
-            echo "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL;
-            echo "Текст ошибки error: " . mysqli_connect_error() . PHP_EOL;
-            exit;
+        $sql = <<<SQL
+    SELECT *
+    FROM `user_details`
+    WHERE `first_name` = 'morgan' 
+SQL;
+
+        if (!$result = $connection->query($sql)) {
+            die('There was an error running the query [' . $connection->error . ']');
         }
+        $i = 0;
+        while ($row = $result->fetch_assoc()) {
+            $i++;
+            echo $row['username'] . PHP_EOL;
+        }
+        echo 'Request count: ' . $connection->affected_rows . PHP_EOL. PHP_EOL;
+        echo "Total mysql DB rows == 1 mln" . PHP_EOL;
 
-        echo "Соединение с MySQL установлено!" . PHP_EOL;
-        echo "Информация о сервере: " . mysqli_get_host_info($link) . PHP_EOL;
-
-        mysqli_close($link);
+        mysqli_close($connection);
     }
+
 }
